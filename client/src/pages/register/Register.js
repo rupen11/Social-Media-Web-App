@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './register.css'
 import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -33,6 +33,11 @@ const Register = () => {
             }
         }
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem('AuthToken');
+        if (token) history.push('/');
+    }, []);
 
     return (
         <div className='login'>

@@ -9,8 +9,10 @@ import ChatOnline from '../../components/chatOnline/ChatOnline';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { io } from 'socket.io-client'
+import { useHistory } from 'react-router-dom';
 
 const Messenger = () => {
+    const history = useHistory();
     const [conversations, setConversations] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [messages, setMessages] = useState([]);
@@ -22,6 +24,9 @@ const Messenger = () => {
     const user = useSelector((state) => state.getUserReducer.userdata);
 
     useEffect(() => {
+        const token = localStorage.getItem('AuthToken');
+        if (!token) history.push('/login');
+
         socket.current = io("ws://localhost:8900");
         socket.current.on("getMessage", (data) => {
             setArrivalMessage({

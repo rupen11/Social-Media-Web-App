@@ -6,8 +6,10 @@ import Feed from '../../components/feed/Feed'
 import Rightbar from '../../components/rightbar/Rightbar'
 import axios from 'axios'
 import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom'
 
 const Profile = () => {
+    const history = useHistory();
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const params = useParams();
     const username = params.username;
@@ -20,6 +22,12 @@ const Profile = () => {
         }
         fetchUser();
     }, [username])
+
+    useEffect(() => {
+        const token = localStorage.getItem('AuthToken');
+        if (!token) history.push('/login');
+    }, []);
+
     return (
         <>
             <Topbar />

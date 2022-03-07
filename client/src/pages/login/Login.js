@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import './login.css'
 import CircularProgress from '@mui/material/CircularProgress';
 import { Link, useHistory } from 'react-router-dom'
@@ -29,6 +29,11 @@ const Login = () => {
             console.log("Some error to login " + error);
         }
     }
+
+    useEffect(() => {
+        const token = localStorage.getItem('AuthToken');
+        if (token) history.push('/');
+    }, []);
 
     return (
         <div className='login'>

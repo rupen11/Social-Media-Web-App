@@ -8,6 +8,7 @@ import Messenger from "./pages/messenger/Messenger";
 import socialContext from "./context/socialContext";
 import { useDispatch } from "react-redux";
 import { getUser } from "./actions";
+import Error from "./pages/error/Error";
 
 
 function App() {
@@ -46,6 +47,9 @@ function App() {
         </Route>
         <Route exact path="/messenger">
           <Messenger />
+        </Route>
+        <Route>
+          <Error />
         </Route>
       </Switch>
     </Router>
