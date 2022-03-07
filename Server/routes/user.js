@@ -7,13 +7,13 @@ const User = require('../models/User');
 router.put("/:id", async (req, res) => {
     try {
         if (req.body.userId === req.params.id || req.body.isAdmin) {
-            if (req.body.password) {
+            if (req.body.information.password) {
                 const salt = await bcrypt.genSalt(10);
-                req.body.password = await bcrypt.hash(req.body.password, salt);
+                req.body.information.password = await bcrypt.hash(req.body.information.password, salt);
             }
-            const user = await User.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body });
+            const user = await User.findByIdAndUpdate({ _id: req.params.id }, { $set: req.body.information }, { new: true });
             if (!user) return res.status(400).json("Account not updated,Something went wrong");
-            return res.status(200).json("Account has been updated");
+            return res.status(200).json(user);
         }
         else {
             return res.status(403).json("You can update only your account");

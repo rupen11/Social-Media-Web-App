@@ -99,3 +99,111 @@
   cursor: pointer;
   outline: none;
 }
+
+.rightbareditinfoBtn {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  border: none;
+  background-color: #1772f2;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.rightbareditinfoBtn:hover {
+  opacity: 0.8;
+}
+
+.rightbarEditinfoForm {
+  padding: 10px 10px 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.rightbarEditinfoInput {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  font-size: 14px;
+  padding: 5px;
+  margin-bottom: 15px;
+  outline: none;
+  transition: 0.4s;
+}
+
+.rightbarEditinfoInput:focus {
+  border-bottom: 1px solid #1772f2;
+}
+
+.rightbarButtonContainer {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.rightbarEditinfoSubmit {
+  margin-right: 10px;
+  border: none;
+  background-color: #1772f2;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.rightbarEditinfoSubmit:hover {
+  opacity: 0.8;
+}
+
+.rightbarEditinfoClose {
+  margin-right: 10px;
+  border: none;
+  background-color: #acacac;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.rightbarEditinfoClose:hover {
+  opacity: 0.8;
+}
+
+.rightbarLogout {
+  margin-right: 10px;
+  border: none;
+  background-color: #acacac;
+  color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.rightbarLogout:hover {
+  opacity: 0.8;
+}

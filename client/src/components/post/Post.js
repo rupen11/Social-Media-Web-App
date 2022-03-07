@@ -8,8 +8,6 @@ import socialContext from '../../context/socialContext';
 import { useSelector } from 'react-redux';
 
 const Post = (props) => {
-    const context = useContext(socialContext);
-    // const { user: currentUser } = context;
     const PF = process.env.REACT_APP_PUBLIC_FOLDER;
     const { _id, userId, createdAt, desc, likes, img } = props.post;
     const currentUser = useSelector((state) => state.getUserReducer.userdata);
@@ -20,13 +18,36 @@ const Post = (props) => {
 
     const likeHandler = async () => {
         try {
-            const res = await axios.put('/posts/' + _id + '/like', { userId: currentUser._id });
+            await axios.put('/posts/' + _id + '/like', { userId: currentUser._id });
             setLike(isLiked ? like - 1 : like + 1);
             setIsLiked(!isLiked);
         }
         catch (error) {
             console.log(error);
         }
+    }
+
+    const handleDeletePost = async (_id) => {
+        try {
+            const res = await fetch('/posts/' + _id, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId: currentUser._id })
+            });
+            const json = await res.json();
+            if (res.status === 200) window.location.reload();
+            if (res.status === 403) alert('You can not delete other users post');
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    const [showDelete, setShowDelete] = useState(false);
+
+    const showDeleteOption = () => {
+        setShowDelete(!showDelete);
+        setTimeout(() => setShowDelete(false), 5000);
     }
 
     useEffect(() => {
@@ -55,7 +76,13 @@ const Post = (props) => {
                         <span className="postDate">{format(createdAt)}</span>
                     </div>
                     <div className="postTopRight">
-                        <MoreHorizOutlinedIcon />
+                        <MoreHorizOutlinedIcon className='postTopRightIcon' onClick={showDeleteOption} />
+                        {
+                            showDelete ?
+                                <ul className="postTopRightOption">
+                                    <li onClick={() => { handleDeletePost(_id) }}>Delete Post</li>
+                                </ul> : ""
+                        }
                     </div>
                 </div>
                 <div className="postCenter">

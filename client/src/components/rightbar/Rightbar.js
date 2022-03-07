@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import "./rightbar.css"
 import Online from '../online/Online';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
-import socialContext from '../../context/socialContext';
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../../actions/index';
 
 const Rightbar = (props) => {
-  const context = useContext(socialContext);
-  // const { user } = context;
+  const history = useHistory();
+  const dispatch = useDispatch()
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const user = useSelector((state) => state.getUserReducer.userdata);
 
@@ -51,6 +52,23 @@ const Rightbar = (props) => {
       setFollowed(!followed);
     }
 
+    const [showEditContainer, setShowEditContainer] = useState(false);
+    const [information, setInformation] = useState();
+
+    const handleEditinfoData = (e) => setInformation({ ...information, [e.target.name]: e.target.value });
+
+    const handleEditinfo = async (e) => {
+      e.preventDefault();
+      const res = await axios.put('/users/' + user._id, { userId: user._id, information });
+      setShowEditContainer(false);
+      dispatch(getUser(res.data));
+    }
+
+    const logoutuser = () => {
+      localStorage.removeItem('AuthToken');
+      history.push('/login');
+    }
+
     useEffect(() => {
       const getFriends = async () => {
         try {
@@ -74,20 +92,43 @@ const Rightbar = (props) => {
 
           </button>
         )}
-        <h4 className='rightbarTitle'>User Information</h4>
         <div className="rightbarInfo">
-          <div className="righrbarInfoItem">
-            <span className="rightbarInfoKey">City:</span>
-            <span className="rightbarInfoValue">{props.user.city}</span>
-          </div>
-          <div className="righrbarInfoItem">
-            <span className="rightbarInfoKey">From:</span>
-            <span className="rightbarInfoValue">{props.user.from}</span>
-          </div>
-          <div className="righrbarInfoItem">
-            <span className="rightbarInfoKey">Relationship:</span>
-            <span className="rightbarInfoValue">{props.user.relationship === 1 ? "Single" : props.user.relationship === 2 ? "Married" : "-"}</span>
-          </div>
+          {
+            !showEditContainer ? <>
+              <h4 className='rightbarTitle'>User Information</h4>
+              <div className="righrbarInfoItem">
+                <span className="rightbarInfoKey">City:</span>
+                <span className="rightbarInfoValue">{user.city}</span>
+              </div>
+              <div className="righrbarInfoItem">
+                <span className="rightbarInfoKey">From:</span>
+                <span className="rightbarInfoValue">{user.from}</span>
+              </div>
+              <div className="righrbarInfoItem">
+                <span className="rightbarInfoKey">Relationship:</span>
+                <span className="rightbarInfoValue">{user.relationship === 1 ? "Single" : user.relationship === 2 ? "Married" : "-"}</span>
+              </div>
+              <button className='rightbareditinfoBtn' onClick={() => { setShowEditContainer(true) }}>Edit Information</button>
+              <button className='rightbarLogout' onClick={logoutuser}>Logout</button>
+            </> :
+              <div className="rightbarEditContainer">
+                <h4 className='rightbarTitle'>Edit Information</h4>
+                <form className='rightbarEditinfoForm'>
+                  <input type="text" className='rightbarEditinfoInput' name="city" placeholder='City ex. Ahmedabad' onChange={handleEditinfoData} />
+                  <input type="text" className='rightbarEditinfoInput' name="from" placeholder='From ex. Ahmedabad' onChange={handleEditinfoData} />
+                  <select name="relationship" className='rightbarEditinfoInput' onChange={handleEditinfoData}>
+                    <option value="" selected disabled>Relationship Status</option>
+                    <option value="1">Single</option>
+                    <option value="2">Married</option>
+                    <option value="3">Other</option>
+                  </select>
+                  <div className="rightbarButtonContainer">
+                    <button type="submit" className='rightbarEditinfoSubmit' onClick={handleEditinfo}>Save</button>
+                    <button type="button" className='rightbarEditinfoClose' onClick={() => { setShowEditContainer(false) }}>Close</button>
+                  </div>
+                </form>
+              </div>
+          }
         </div>
         <h4 className='rightbarTitle'>Friends</h4>
         <div className="rightbarFollowings">

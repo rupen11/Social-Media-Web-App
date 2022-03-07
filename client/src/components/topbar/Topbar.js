@@ -6,12 +6,9 @@ import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutline
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
-import socialContext from '../../context/socialContext';
 import { useSelector } from 'react-redux';
 
 const Topbar = () => {
-  const context = useContext(socialContext);
-  // const { user } = context;
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
   const user = useSelector((state) => state.getUserReducer.userdata);
 
@@ -19,7 +16,7 @@ const Topbar = () => {
     <div className='topbarContainer'>
       <div className="topbarLeft">
         <Link to="/">
-          <span className="logo">Lamasocial</span>
+          <span className="logo">Facegram</span>
         </Link>
       </div>
       <div className="topbarCenter">
